@@ -1,14 +1,25 @@
-import styles from './index.module.scss';
+import dynamic from 'next/dynamic';
 
-/* eslint-disable-next-line */
-export interface HomeProps {}
+import styles from './index.module.css';
 
-export function Home(props: HomeProps) {
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore: Cannot find module
+const BuyButton = dynamic<{ children: string; onClick: () => void }>(
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore: Cannot find module
+  async () => import('checkout/buy-button'),
+  {
+    ssr: false,
+  }
+);
+
+export function Page() {
   return (
     <div className={styles['container']}>
-      <h1>Welcome to Home!</h1>
+      <h1>Welcome to Store!</h1>
+      <BuyButton onClick={() => alert('Hello, Module Federation!')}>
+        Add to Cart
+      </BuyButton>
     </div>
   );
 }
-
-export default Home;
